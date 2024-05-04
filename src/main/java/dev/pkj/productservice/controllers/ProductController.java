@@ -5,6 +5,8 @@ import dev.pkj.productservice.dtos.FakeStoreProductDto;
 import dev.pkj.productservice.models.Product;
 import dev.pkj.productservice.services.ProductService;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +24,7 @@ public class ProductController {
         this.productService = productService;
         this.restTemplate = restTemplate;
     }
-
+    @CachePut(value = "product")
     @PostMapping("/products")
     public Product createProduct(@RequestBody CreateProductRequestDto request) {
         return productService.createProduct(
@@ -34,13 +36,14 @@ public class ProductController {
         );
 
     }
-
+    @Cacheable(value = "product")
     @GetMapping("/products/{id}")
     public Product getProductDetails(@PathVariable("id") Long productId) {
         return productService.getSingleProduct(productId) ;
 
     }
 
+    @Cacheable(value = "product")
     @GetMapping("/products/{pageSize}/{pageNumber}/{sort}")
     public ResponseEntity getAllProduct(@PathVariable("pageSize") int pageSize, @PathVariable("pageNumber") int pageNumber, @PathVariable("sort") String sort) {
         Page<Product> productPage = productService.getProducts(pageSize, pageNumber, sort);
