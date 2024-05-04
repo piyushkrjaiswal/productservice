@@ -5,6 +5,7 @@ import dev.pkj.productservice.dtos.FakeStoreProductDto;
 import dev.pkj.productservice.models.Product;
 import dev.pkj.productservice.services.ProductService;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -40,9 +41,10 @@ public class ProductController {
 
     }
 
-    @GetMapping("/products")
-    public List<Product> getAllProduct() {
-        return productService.getProducts();
+    @GetMapping("/products/{pageSize}/{pageNumber}/{sort}")
+    public ResponseEntity getAllProduct(@PathVariable("pageSize") int pageSize, @PathVariable("pageNumber") int pageNumber, @PathVariable("sort") String sort) {
+        Page<Product> productPage = productService.getProducts(pageSize, pageNumber, sort);
+        return ResponseEntity.ok(productPage);
 
     }
 

@@ -2,6 +2,7 @@ package dev.pkj.productservice.services;
 
 import dev.pkj.productservice.dtos.FakeStoreProductDto;
 import dev.pkj.productservice.models.Product;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -10,7 +11,9 @@ public interface ProductService {
 
     Product getSingleProduct(Long productId);
 
-    List<Product> getProducts();
+    Page<Product> getProducts(Integer pageSize,
+                              Integer pageNumber,
+                              String sort);
 
     Product createProduct(String title,
                           String description,

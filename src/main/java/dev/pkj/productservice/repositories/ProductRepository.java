@@ -1,9 +1,7 @@
 package dev.pkj.productservice.repositories;
 
-import dev.pkj.productservice.models.Category;
 import dev.pkj.productservice.models.Product;
 import dev.pkj.productservice.repositories.projections.ProductProjection;
-import dev.pkj.productservice.repositories.projections.ProductWithIdAndTitle;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

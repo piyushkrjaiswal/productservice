@@ -2,6 +2,7 @@ package dev.pkj.productservice.services;
 
 import dev.pkj.productservice.dtos.FakeStoreProductDto;
 import dev.pkj.productservice.models.Product;
+import org.springframework.data.domain.Page;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -30,7 +31,7 @@ public class FakeStoreProductService implements ProductService {
     }
 
     @Override
-    public List<Product> getProducts() {
+    public Page<Product> getProducts(Integer pageSize, Integer pageNumber, String sort) {
 
         ResponseEntity<FakeStoreProductDto[]> response = restTemplate.getForEntity(
                 "https://fakestoreapi.com/products", FakeStoreProductDto[].class);
@@ -38,7 +39,7 @@ public class FakeStoreProductService implements ProductService {
         for (FakeStoreProductDto fakeStoreEachProduct: Arrays.stream(Objects.requireNonNull(response.getBody())).toList()) {
             list.add(fakeStoreEachProduct.toProduct());
         }
-        return list;
+        return (Page<Product>) list;
     }
 
     @Override

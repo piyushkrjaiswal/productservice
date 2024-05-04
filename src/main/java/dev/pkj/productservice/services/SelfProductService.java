@@ -5,6 +5,10 @@ import dev.pkj.productservice.models.Category;
 import dev.pkj.productservice.models.Product;
 import dev.pkj.productservice.repositories.CategoryRepository;
 import dev.pkj.productservice.repositories.ProductRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -31,9 +35,18 @@ public class SelfProductService implements ProductService {
     }
 
     @Override
-    public List<Product> getProducts() {
-        return productRepository.findAll();
+    public Page<Product> getProducts(Integer pageSize, Integer pageNumber, String sort) {
+//        return productRepository.findAll();
 //        return null;
+        Pageable pageable = null;
+        if(sort != null) {
+            pageable = PageRequest.of(pageNumber, pageSize, Sort.Direction.ASC, sort);
+        } else {
+            pageable = PageRequest.of(pageNumber, pageSize);
+        }
+
+        return productRepository.findAll(pageable);
+
     }
 
     @Override
