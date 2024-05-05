@@ -107,4 +107,9 @@ public class SelfProductService implements ProductService {
 
         return product1;
     }
+
+    @Override
+    public void deleteAll() {
+        productRepository.deleteAll();
+    }
 }

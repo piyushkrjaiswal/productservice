@@ -5,6 +5,7 @@ import dev.pkj.productservice.dtos.FakeStoreProductDto;
 import dev.pkj.productservice.models.Product;
 import dev.pkj.productservice.services.ProductService;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
@@ -24,7 +25,7 @@ public class ProductController {
         this.productService = productService;
         this.restTemplate = restTemplate;
     }
-    @CachePut(value = "product")
+    @CachePut(value = "product", key = "#request.id")
     @PostMapping("/products")
     public Product createProduct(@RequestBody CreateProductRequestDto request) {
         return productService.createProduct(
@@ -62,6 +63,7 @@ public class ProductController {
 
     }
 
+    @CacheEvict(value = "product")
     @DeleteMapping("/products/{id}")
     public Long deleteProduct(@PathVariable("id") Long productId) {
         return productService.deleteProduct(productId);

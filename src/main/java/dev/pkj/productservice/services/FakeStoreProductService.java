@@ -97,4 +97,9 @@ public class FakeStoreProductService implements ProductService {
 
         return response.getBody().toProduct();
     }
+
+    @Override
+    public void deleteAll() {
+
+    }
 }

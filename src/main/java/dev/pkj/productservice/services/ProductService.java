@@ -29,5 +29,7 @@ public interface ProductService {
                           double price,
                           String image);
 
+    void deleteAll();
+
 
 }
